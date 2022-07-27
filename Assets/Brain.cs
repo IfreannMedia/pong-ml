@@ -57,6 +57,14 @@ public class Brain : MonoBehaviour
         // create a raycast along the balls velocity
         RaycastHit2D hit = Physics2D.Raycast(ball.transform.position, brb.velocity, 1000, layerMask);
 
+        // if we hit the top or bottom, calulate also the reflection angle for the paddle
+        if (hit.collider != null && hit.collider.gameObject.tag == "tops")
+        {
+            Vector3 reflection = Vector3.Reflect(brb.velocity, hit.normal);
+            hit = Physics2D.Raycast(hit.point, reflection, 1000, layerMask);
+        }
+
+
         // if the ball has a clear shot to the back wall, the paddle Y position must be adjusted
         if (hit.collider != null && hit.collider.gameObject.tag == "backwall")
         {
